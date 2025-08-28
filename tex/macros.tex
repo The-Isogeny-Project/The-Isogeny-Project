@@ -1,0 +1,856 @@
+\let\footnotesize\small
+
+\makeatletter
+\newcounter{savesection}
+\newcounter{apdxsection}
+\renewcommand\appendix{\par
+  \setcounter{savesection}{\value{section}}%
+  \setcounter{section}{\value{apdxsection}}%
+  \setcounter{subsection}{0}%
+  \gdef\thesection{\@Alph\c@section}}
+\newcommand\unappendix{\par
+  \setcounter{apdxsection}{\value{section}}%
+  \setcounter{apdxsection}{0}%
+  \setcounter{section}{\value{savesection}}%
+  \setcounter{subsection}{0}%
+  \gdef\thesection{\@arabic\c@section}}
+\makeatother
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%        MESSING AROUND
+
+
+\newcommand{\krijn}{
+Kr
+\hspace{-9.5pt}
+{
+i{\hspace{-3.3pt}\color{white}{\i}\hspace{-3.2pt}\color{white}{\i}}
+{\hspace{-6pt}{u {\hspace{-6pt}\color{white}{I}}  \hspace{-7pt}j }}
+}
+{\hspace{-13pt} n}
+\hspace{-5pt}
+}
+
+\newcommand{\reijnders}{
+{
+\hspace{1pt}
+{
+i{\hspace{-3.3pt}\color{white}{\i}\hspace{-3.2pt}\color{white}{\i}}
+{\hspace{-6pt}{u {\hspace{-6pt}\color{white}{I}}  \hspace{-7pt}j }}
+}
+}
+{\hspace{-35pt} Re}
+{\hspace{-0pt} nders}
+}
+\renewcommand{\krijn}{Krijn\xspace}
+\renewcommand{\reijnders}{Reijnders\xspace}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\newcommand{\committeemember}[2]{%
+    \begin{singlespace}
+        \setstretch{0.8}
+        \noindent
+        {\normalsize#1}
+        {\\{\footnotesize#2}}
+    \end{singlespace}
+}
+
+\newcommand{\showpapercite}[1]{%
+\begingroup
+\setlength{\leftmargini}{0.65cm}%
+\quote
+	\emergencystretch=3em
+    \sloppy%
+    \fullcite{#1}.%
+    \fussy%
+\endquote%
+\endgroup
+}
+
+\newcommand{\contribution}[1]{%
+\begingroup
+\setlength{\leftmargini}{0.65cm}%
+\textbf{Contribution.} #1
+\endgroup
+}
+
+\newcommand{\scalematrix}[1]{	
+      \left(
+        \scalebox{0.8}{\mbox{\ensuremath{
+                \begin{array}{cccc}
+                    #1
+                \end{array}
+        }}}
+      \right)
+    }
+
+%clever footnote stuff
+\let\svthefootnote\thefootnote
+\newcommand\blankfootnote[1]{%
+  \let\thefootnote\relax\footnotetext{#1}%
+  \let\thefootnote\svthefootnote%
+}
+\let\svfootnote\footnote
+\renewcommand\footnote[2][?]{%
+  \if\relax#1\relax%
+    \blankfootnote{#2}%
+  \else%
+    \if?#1\svfootnote{#2}\else\svfootnote[#1]{#2}\fi%
+  \fi
+}
+
+\theoremstyle{definition}
+\newtheorem{definition}{Definition}[chapter]
+\newtheorem{example}{Example}[chapter]
+\newtheorem{problem}{Problem}[chapter]
+\newtheorem{remark}{Remark}[chapter]
+\newtheorem{assumption}{Assumption}[chapter]
+
+
+%\theoremstyle{plain}
+\newtheorem{theorem}[definition]{Theorem}
+\newtheorem{lemma}[definition]{Lemma}
+\newtheorem{proposition}[definition]{Proposition}
+\newtheorem{corollary}[definition]{Corollary}
+
+
+\renewcommand{\thedefinition}{\arabic{definition}}
+\renewcommand{\theproblem}{\arabic{problem}}
+\renewcommand{\theexample}{\arabic{example}}
+\renewcommand{\theremark}{\arabic{remark}}
+\renewcommand{\theassumption}{\arabic{assumption}}
+
+
+\newcounter{protocol}
+\newenvironment{protocol}[4]
+{
+   \par\addvspace{\topsep}
+   \needspace{3\baselineskip}
+   \noindent
+   {\begin{center} \refstepcounter{protocol}\textbf{Protocol \theprotocol. }{#1} \end{center}}
+   % \table
+    % \caption{#1}
+    \vspace{-0em}
+    \tabularx{0.9\linewidth}  
+    { 
+      >{\raggedright\arraybackslash}p{#2\linewidth}  
+      >{\centering\arraybackslash}p{#3\linewidth} 
+      >{\raggedright\arraybackslash}p{#4\linewidth}   
+    } 
+}
+{
+    \endtabularx
+    \par\addvspace{\topsep}
+    \vspace{1em}
+}
+
+\Crefname{protocol}{Protocol}{Protocols}
+
+\newcommand\Crefabbr[1]{%
+\begingroup
+  \Crefname{corollary}{Cor.}{Cors.}
+  \Crefname{lemma}{Lem.}{Lems.}
+  \Crefname{theorem}{Thm.}{Thms.}
+  \Crefname{section}{Sec.}{Secs.}
+  \Cref{#1}
+\endgroup%
+}
+
+\newcommand\CrefNL[1]{%
+\begingroup
+  \Crefname{part}{Deel}{Delen}
+  \Cref{#1}
+\endgroup%
+}
+
+%check if string empty
+\newcommand{\ifnotext}[1]{%
+  \sbox0{#1}%
+  \ifdim\wd0=0pt
+    {}% if #1 is empty
+  \else
+    {#1~}% if #1 is not empty
+  \fi
+}
+%ugly solution to crossreferencing\ldots
+\newcommand{\crossref}[3]{%
+        \hyperref[#2]{\ifnotext{#3}{\getrefnumber{#1}.}\getrefnumber{#2}}\xspace
+}
+
+\newcommand{\chapsecmark}[1]{
+  \chaptermark{#1}\sectionmark{#1}
+}
+
+\newenvironment{smallquote}{%
+  \list{}{%
+    \leftmargin2cm   % this is the adjusting screw
+    \rightmargin\leftmargin
+  }
+  \item\relax
+}
+{\endlist}
+
+\newcommand{\q}{\phantom{1}}
+\newcommand{\dq}{\phantom{.1}}
+
+\newcommand{\cmark}{\ding{51}}
+\newcommand{\xmark}{\ding{55}}
+
+\newcommand{\Bnote}[1]{\emph{\textcolor{blue}{#1}}}
+%--- generic notation
+\newcommand{\define}{:=}
+\newcommand{\newdef}[1]{\textit{#1}}
+\newcommand{\st}{\text{ : }}
+
+%%%%% PROTOCOL NOTATION
+\newcommand{\leftparty}[1]{$ #1 $ && \\}
+\newcommand{\rightparty}[1]{&& $ #1 $  \\}
+\newcommand{\sendright}[1]{& $\xrightarrow{\mathmakebox[0.9\linewidth]{#1}}$ &  \\}
+\newcommand{\sendleft}[1]{& $\xleftarrow{\mathmakebox[0.9\linewidth]{#1}}$ &  \\}
+
+\newcommand{\eqq}{\overset{?}{=}}
+\newcommand{\sbline}{\\[.5\normalbaselineskip]}% small blank line
+\newcommand{\Ttable}{\rule{0pt}{4ex}}       % Top strut
+\newcommand{\Btable}{\rule{0pt}{10ex}}       % Bottom strut
+\newcommand{\rands}{\xleftarrow{\text{ \$ }}}
+
+%%%% STYLES
+\newcommand{\algstyle}[1]{\ensuremath{\mathtt{#1}}\xspace}
+\newcommand{\matrixstyle}[1]{\ensuremath{\mathbf{#1}}\xspace}
+\newcommand{\problemstyle}[1]{\ensuremath{\mathsf{#1}}\xspace}
+\newcommand{\problemstylenospace}[1]{\ensuremath{\mathsf{#1}}}
+
+
+\newcommand{\forwardtheorem}[2]{
+    \vspace*{0.2cm}
+    \newline \noindent \textbf{\Cref{#1}.}
+    \emph{
+        #2
+    }   
+}
+
+%%%%%%  Rubens "God command"  %%%%%%
+\newcommand{\hlabel}{\phantomsection\label}
+
+\newcommand{\makeclickable}[2]{%
+  \expandafter\NewDocumentCommand\csname #1\endcsname{gg}{\hyperref[func::#2]{\ensuremath{\mathsf{#2}}}\xspace}%
+  \expandafter\NewDocumentCommand\csname #1no\endcsname{gg}{\ensuremath{\mathsf{#2}}}%
+  \expandafter\NewDocumentCommand\csname DEF#1\endcsname{gg}{\ensuremath{\mathsf{#2}}\hlabel{func::#2}\xspace}%
+}
+
+\newcommand{\makeclickablemath}[2]{%
+  \expandafter\NewDocumentCommand\csname #1\endcsname{gg}{\hyperref[func::#2]{\ensuremath{\mathsf{#2}}}\xspace}%
+  \expandafter\NewDocumentCommand\csname #1no\endcsname{gg}{\ensuremath{\mathsf{#2}}}%
+  \expandafter\NewDocumentCommand\csname DEF#1\endcsname{gg}{\ensuremath{\mathsf{#2}}\hlabel{func::#2}}%
+}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\makeclickable{CheckOrigin}{CheckOrigin}
+\makeclickable{PointDifference}{PointDifference}
+\makeclickable{PointCompression}{PointCompression}
+\makeclickable{PointDecompression}{PointDecompression}
+
+\makeclickablemath{dbl}{Dbl}
+\makeclickablemath{add}{Add}
+\makeclickablemath{sub}{Sub}
+\makeclickablemath{construct}{Construct}
+\makeclickablemath{evaluate}{Evaluate}
+\makeclickablemath{expo}{Exponentiate}
+\makeclickable{gauss}{GaussAlgorithm}
+\makeclickable{miller}{MillersAlgorithm}
+\makeclickable{KeyGenMEDS}{KeyGen}
+\makeclickable{SignMEDS}{Sign}
+\makeclickable{VerifMEDS}{Verif}
+
+\newcommand\IsSquare{\ensuremath{\mathtt{IsSquare}}\xspace}
+\newcommand{\GenerateCode}{\ensuremath{\mathsf{GenerateCode}}\xspace}
+\newcommand{\GenerateIsometry}{\ensuremath{\mathsf{GenerateIsometry}}\xspace}
+
+
+\newcommand{\topi}{^{(j)}}
+\newcommand{\topii}{^{(j+1)}}
+
+\newcommand{\ZZ}{\ensuremath{\mathbb{Z}}}
+\newcommand{\RR}{\ensuremath{\mathbb{R}}}
+\newcommand{\FF}{\ensuremath{\mathbb{F}}}
+\newcommand{\QQ}{\ensuremath{\mathbb{Q}}}
+\newcommand{\NN}{\ensuremath{\mathbb{N}}}
+\newcommand{\CC}{\ensuremath{\mathbb{C}}}
+
+\newcommand{\PP}{\ensuremath{\mathbb{P}}}
+\newcommand{\EC}{\ensuremath{\mathcal{E}}}
+\newcommand{\C}{\mathcal{C}}
+\newcommand{\Cros}{\mathcal{C}_{\lambda, \mu, \nu}}
+\newcommand{\J}{\mathcal{J}}
+\newcommand{\Jros}{\mathcal{J}_{\lambda, \mu, \nu}}
+\newcommand{\K}{\mathcal{K}}
+\newcommand{\Ktw}{\mathcal{K}^T}
+\newcommand{\T}{\mathcal{T}}
+%\newcommand{\OO}{\ensuremath{O}}
+\newcommand{\Zero}{\mathbf{o}}
+\newcommand{\vu}{\text{\krinna{Did you write vu instead of nu again, you idiot?}}}
+\renewcommand{\O}{\mathcal{O}}
+
+\newcommand{\IsSq}{\IsSquare}
+
+\newcommand{\M}{\ensuremath{\mathbf{M}}\xspace}
+\newcommand{\Sq}{\ensuremath{\mathbf{S}}\xspace}
+\newcommand{\A}{\ensuremath{\mathbf{a}}\xspace}
+
+\newcommand{\lone}{{\lambda_1}}
+\newcommand{\ltwo}{{\lambda_2}}
+\newcommand{\lthree}{{\lambda_3}}
+\newcommand{\lfour}{{\lambda_4}}
+\newcommand{\li}{{\lambda_i}}
+
+
+\newcommand{\prof}[1]{t_{[2]}(#1)}
+
+\newcommand{\End}{\operatorname{End}}
+\newcommand{\Cl}{\mathcal{C}\!\ell}
+\newcommand{\ClO}{\Cl(\O)}
+\newcommand{\Ell}{\mathcal{E}\!\ell\!\ell}
+\newcommand{\Ellp}{\Ell_p}
+\newcommand{\fraka}{\mathfrak{a}}
+\newcommand{\frakb}{\mathfrak{b}}
+\newcommand{\frakl}{\mathfrak{l}}
+\newcommand{\frakq}{\mathfrak{q}}
+
+%Quaternion algebras
+%\renewcommand{\i}{\mathbf{i}}
+\renewcommand{\j}{\mathbf{j}}
+\renewcommand{\k}{\mathbf{k}}
+\newcommand{\Bp}{\mathcal{B}_{p,\infty}}
+\newcommand{\Fp}{\mathbb{F}_p}
+\newcommand{\Fpk}{\mathbb{F}_{p^{2k}}}
+\newcommand{\Fpbar}{\overline{\mathbb{F}}_p} 
+\newcommand{\Fpsq}{\mathbb{F}_{p^2}}
+\newcommand{\Fpsqk}{\mathbb{F}_{p^{2k}}}
+\newcommand{\Fpsqki}{\mathbb{F}_{p^{2{k_i}}}}
+\newcommand{\Fq}{\mathbb{F}_{q}}
+\newcommand{\Gal}{\mathrm{Gal}}
+\newcommand{\field}{\ensuremath{k}\xspace}
+\newcommand{\fieldbar}{\ensuremath{\overline{\field}}\xspace}
+\newcommand{\charfield}{\ensuremath{\operatorname{char} \field}\xspace}
+
+\renewcommand{\Im}{\operatorname{Im}}
+\newcommand{\isom}{\xrightarrow{\sim}}
+\renewcommand{\div}{\operatorname{div}}
+
+\newcommand{\gen}{\text{gen}}
+\newcommand{\can}{\text{can}}
+\newcommand{\Sqr}{\text{Sqr}}
+\newcommand{\Int}{\text{Int}}
+\newcommand{\Ros}{\text{Ros}}
+\newcommand{\ros}{{\lambda, \mu, \nu}}
+\newcommand{\specialros}{{\lambda, \mu, \lambda\mu}}
+
+\newcommand{\Had}{\mathtt{H}}  %Hadamard
+\newcommand{\Inv}{\mathtt{Inv}}  %Invert4Constants
+\newcommand{\Scal}{\mathtt{C}} %FourWayMult
+\newcommand{\Squaring}{\mathtt{S}} %Squaring
+\newcommand{\isokernel}[4]{\langle L_{#1,#2}, L_{#3,#4} \rangle}
+% \newcommand{\Fpbar}{\overline{\mathbb{F}_p}} 
+\newcommand{\invol}[1]{\overline{#1}}
+\newcommand{\tr}[1]{\mathrm{tr}(#1)}
+\newcommand{\trace}[1]{\mathrm{trd}(#1)}
+\newcommand{\n}[1]{\mathrm{nrd}(#1)}
+\DeclareMathOperator{\Hom}{Hom}
+\newcommand{\Velu}{V\'{e}lu}
+
+\DeclareMathOperator{\Spec}{\mathrm{Spec}}
+\DeclareMathOperator{\coker}{coker}
+
+%%% whatever name we choose
+\newcommand{\Deuring}{\textsc{Deuring}}
+
+\newcommand{\SigningKLPT}{\ensuremath{\mathsf{SigningKLPT}}\xspace}
+\newcommand{\IdealToIsog}{\ensuremath{\mathsf{IdealToIsogeny}}\xspace}
+\newcommand{\IdealToIsogenyEichler}{\ensuremath{\mathsf{IdealToIsogenyEichler}}\xspace}
+
+
+\newcommand{\SQIsign}{SQIsign\xspace}
+\newcommand{\sqisign}{SQIsign\xspace}
+\newcommand{\sqisignhd}{\ensuremath{\mathsf{SQIsignHD}}\xspace}
+\newcommand{\NISTSQIsign}{\ensuremath{\mathsf{SQIsign\,(NIST)}}\xspace}
+\newcommand{\chinesesqisign}{\ensuremath{\mathsf{SQIsign\,(LWXZ)}}\xspace}
+
+\newcommand{\blocks}{\ensuremath{n}\xspace}
+\newcommand{\findkernel}{\ensuremath{\mathsf{FindKernel}}\xspace}
+\newcommand{\findbasis}{\ensuremath{\mathsf{FindBasis}}\xspace}
+\newcommand{\findbasisandkernel}{\ensuremath{\mathsf{FindBasisAndKernel}}\xspace}
+\newcommand{\computeisogeny}{\ensuremath{\mathsf{ComputeIsogeny}}\xspace}
+%\newcommand{\cofac}{\ensuremath{\mathtt{COFAC}}\xspace}
+\newcommand{\cofac}{\ensuremath{\frac{p+1}{2^f}}}
+
+% sqrtvelu 
+\newcommand\sqrtvelu{\mbox{\smash{\hspace{-1pt}\raisebox{.01ex}{$\sqrt{\text{\'elu}}$}}}\xspace}
+
+
+\newcommand\lcm{\operatorname{lcm}}
+
+
+\newcommand\xDBL{\ensuremath{\mathtt{xDBL}}\xspace}
+\newcommand\xADD{\ensuremath{\mathtt{xADD}}\xspace}
+\newcommand\xDBLADD{\ensuremath{\mathtt{xDBLADD}}\xspace}
+\newcommand\xMUL{\ensuremath{\mathtt{xMUL}}\xspace}
+
+\newcommand\threepointladder{\ensuremath{\mathtt{3ptLadder}}\xspace}
+\newcommand\fourisogenychain{\mathtt{FourIsogenyChain}}
+\newcommand\protoaff{\mathtt{ProjectiveToAffine}}
+\newcommand\completebasis{\mathtt{CompleteBasis}}
+\newcommand\smallnonsquare{\mathtt{SmallNonSquare}}
+\newcommand\pointdiff{\mathtt{PointDifference}}
+\newcommand\DiscLog{\mathtt{DiscLog}}
+
+\newcommand\bigO{\ensuremath{O}}
+\newcommand\softO{\ensuremath{\widetilde O}}
+
+\newcommand\dual{\widehat}
+\newcommand\ord{\mathrm{ord}}
+\newcommand\Ord{\mathrm{Ord}}
+\newcommand\Miss{\mathrm{Miss}}
+
+\let\temp\phi
+\let\phi\varphi
+\let\varphi\temp
+\newcommand{\remf}{f_0}
+
+\newcommand{\secret}{\text{secret}}
+\newcommand{\chall}{\text{chall}}
+\newcommand{\commit}{\text{com}}
+\newcommand{\response}{\text{resp}}
+
+\newcommand\challengeisogeny{\ensuremath{\phi_{\text{chall}}}\xspace}
+\newcommand{\challengeisogenydual}{\ensuremath{\hat{\phi}_{\text{chall}}}\xspace}
+\newcommand\commitisogeny{\ensuremath{\phi_{\text{com}}}\xspace}
+\newcommand\secretisogeny{\ensuremath{\phi_{A}}\xspace}
+\newcommand{\secretisogenydual}{\ensuremath{\hat{\phi}_{A}}\xspace}
+\newcommand\respisogeny{\ensuremath{\phi_{\text{resp}}}\xspace}
+\newcommand\responseisogeny{\respisogeny}
+\newcommand{\responseisogenydual}{\ensuremath{\hat{\phi}_{\text{resp}}}\xspace}
+
+\newcommand\kerchall{\ensuremath{K_{\text{chall}}}\xspace}
+
+\newcommand\challdeg{\ensuremath{D_{\text{chall}}}\xspace}
+\newcommand\commitdeg{\ensuremath{D_{\text{com}}}\xspace}
+
+\newcommand\sig{\ensuremath{\sigma}\xspace}
+
+\newcommand\pnist{\ensuremath{p_\texttt{1973}}\xspace}
+\newcommand\pfour{\ensuremath{p_\texttt{4}}\xspace}
+\newcommand\pfive{\ensuremath{p_\texttt{5}}\xspace}
+\newcommand\pfast{\ensuremath{p_\texttt{7}}\xspace}
+
+\newcommand\frob{\ensuremath{\pi}\xspace}
+\newcommand{\frobG}{\ensuremath{\pi\arrowvert_{\langle G \rangle}}\xspace}
+\newcommand{\frobK}{\ensuremath{\pi\arrowvert_{\langle K \rangle}}\xspace}
+
+\newcommand\secp{\ensuremath{\lambda}\xspace}
+\newcommand{\secparam}{\ensuremath{\lambda}\xspace}
+
+
+\newcommand{\widebar}[1]{\mkern 1.5mu\overline{\mkern-1.5mu#1\mkern-1.5mu}\mkern 1.5mu}
+
+\newcommand{\smoothbound}{\ensuremath{B}\xspace}
+
+
+% % NOTATION
+\newcommand{\todo}[1]{{\color{red}{\textbf{TODO:} #1}}}
+\newcommand{\commentSimona}[1]{{\color{red} Comment Simona: #1}}
+\newcommand{\commentMonika}[1]{{\color{red} Comment Monika: #1}}
+
+\newcommand{\getsr}{{\:\leftarrow\hspace*{-3pt}\raisebox{.175ex}{\(\scriptstyle\$\)}\:}}
+\newcommand{\booleanvalue}[1]{\left⟦{}#1\right⟧}
+
+\newcommand{\partystyle}[1]{\ensuremath{\operatorname{\mathcal{#1}}}\xspace}
+\newcommand{\partyA}{\partystyle{A}}
+\newcommand{\partyB}{\partystyle{B}}
+
+\newcommand{\cryptokeystyle}[1]{\ensuremath{\operatorname{\mathsf{#1}}}\xspace}
+\newcommand{\operatorstyle}[1]{\ensuremath{\operatorname{\mathsf{ #1 }}}\xspace}
+
+\newcommand{\key}{\cryptokeystyle{K}}
+\newcommand{\msg}{\cryptokeystyle{msg}}
+\newcommand{\ct}{\cryptokeystyle{ct}}
+\newcommand{\ek}{\cryptokeystyle{ek}}
+\newcommand{\pk}{\cryptokeystyle{pk}}
+\newcommand{\pkA}{\cryptokeystyle{pk_A}}
+\newcommand{\pkB}{\cryptokeystyle{pk_B}}
+\newcommand{\sk}{\cryptokeystyle{sk}}
+\newcommand{\skA}{\cryptokeystyle{sk_A}}
+\newcommand{\skB}{\cryptokeystyle{sk_B}}
+\newcommand{\KEM}{\cryptokeystyle{KEM}}
+
+\newcommand{\ska}{\skA}
+\newcommand{\skb}{\skB}
+\newcommand{\pka}{\pkA}
+\newcommand{\pkb}{\pkB}
+
+\newcommand{\AdvA}{\mathcal{A}}
+\newcommand{\AdvB}{\mathcal{B}}
+
+\newcommand{\tg}{\tilde{g}}
+\newcommand{\tx}{\tilde{x}}
+\newcommand{\talpha}{\tilde{\alpha}}
+
+\newcommand{\cmt}{\cryptokeystyle{cmt}}
+\newcommand{\com}{\cryptokeystyle{Com}}
+\newcommand{\ch}{\cryptokeystyle{ch}}
+% \newcommand{\chal}{\cryptokeystyle{chal}}
+\newcommand{\chal}{\ch}
+\newcommand{\resp}{\cryptokeystyle{resp}}
+\newcommand{\verif}{\cryptokeystyle{verif}}
+\newcommand{\seed}{\cryptokeystyle{seed}}
+\newcommand{\rootseed}{\cryptokeystyle{seed}_{\mathsf{root}}}
+\newcommand{\intseed}{\cryptokeystyle{intseed}}
+\newcommand{\salt}{\cryptokeystyle{salt}}
+
+\newcommand{\Keygen}{\cryptokeystyle{Keygen}}  % chktex 36
+\newcommand{\Derive}{\cryptokeystyle{Derive}}  % chktex 36
+\newcommand{\Encaps}{\cryptokeystyle{Encaps}}
+\newcommand{\Decaps}{\cryptokeystyle{Decaps}}
+\newcommand{\sharedkey}{\cryptokeystyle{Decaps}}
+
+\newcommand{\keygen}{\Keygen}
+\newcommand{\derive}{\Derive}
+\newcommand{\encaps}{\Encaps}
+\newcommand{\decaps}{\Decaps}
+
+\newcommand{\Sign}{\cryptokeystyle{Sign}}  % chktex 36
+\newcommand{\Verif}{\cryptokeystyle{Verif}}  % chktex 36
+
+\newcommand{\KEMe}{{\operatorname{\mathsf{KEM_e}}}}
+\newcommand{\Keygene}{{\operatorname{\mathsf{KEM_e}\text{.}\mathsf{Keygen}}()}}  % chktex 36
+\newcommand{\Encapsulatee}{{\operatorname{\mathsf{KEM_e}\text{.}\mathsf{Encapsulate}}}}
+\newcommand{\Decapsulatee}{{\operatorname{\mathsf{KEM_e}\text{.}\mathsf{Decapsulate}}}}
+\newcommand{\KEMs}{{\operatorname{\mathsf{KEM_s}}}}
+\newcommand{\Keygens}{{\operatorname{\mathsf{KEM_s}\text{.}\mathsf{Keygen}}()}}  % chktex 36
+\newcommand{\Encapsulates}{{\operatorname{\mathsf{KEM_s}\text{.}\mathsf{Encapsulate}}}}
+\newcommand{\Decapsulates}{{\operatorname{\mathsf{KEM_s}\text{.}\mathsf{Decapsulate}}}}
+\newcommand{\KEMc}{{\operatorname{\mathsf{KEM_c}}}}
+\newcommand{\Keygenc}{{\operatorname{\mathsf{KEM_c}\text{.}\mathsf{Keygen}}()}}  % chktex 36
+\newcommand{\Encapsulatec}{{\operatorname{\mathsf{KEM_c}\text{.}\mathsf{Encapsulate}}}}
+\newcommand{\Decapsulatec}{{\operatorname{\mathsf{KEM_c}\text{.}\mathsf{Decapsulate}}}}
+
+\newcommand{\SeedTree}{\operatorstyle{SeedTree}}
+\newcommand{\GetNodes}{\operatorstyle{GetNodes}}
+\newcommand{\GetLeaves}{\operatorstyle{GetLeaves}}
+
+\newcommand{\xchall}{{x^\star}}
+\newcommand{\ychall}{{y^\star}}
+
+\newcommand{\wt}{\operatorname{\mathsf{wt}}}
+%% PROOF STUFF
+\newcommand{\RO}{{\operatorname{\mathsf{RO}}}}
+\newcommand{\PRF}{{\operatorname{\mathsf{PRF}}}}
+\newcommand{\hash}{{\operatorname{\mathsf{H}}}}
+\newcommand{\randomized}[1]{\widetilde{#1}}
+
+\newcommand{\EUFCMA}{{\operatorname{\mathsf{EUF-CMA}}}}
+\newcommand{\PRFsec}{{\operatorname{\mathsf{PRF-sec}}}}  % chktex 35
+\newcommand{\dualPRFsec}{{\operatorname{\mathsf{dual-PRF-sec}}}} % chktex 35
+\newcommand{\COLL}{{\operatorname{\mathsf{COLL}}}}
+\newcommand{\ATK}{{\operatorname{\symit{atk}}}}
+\newcommand{\IND}{{\operatorname{\mathsf{IND}}}}
+\newcommand{\CPA}{{\operatorname{\mathsf{CPA}}}}
+\newcommand{\oneCCA}{{\operatorname{\mathsf{1CCA}}}}
+\newcommand{\CCA}{{\operatorname{\mathsf{CCA}}}}
+\newcommand{\INDATK}{{\operatorname{\mathsf{IND-}\symit{atk}}}}
+\newcommand{\INDCPA}{{\operatorname{\mathsf{IND-CPA}}}}
+\newcommand{\INDoneCCA}{{\operatorname{\mathsf{IND-1CCA}}}}
+\newcommand{\INDCCA}{{\operatorname{\mathsf{IND-CCA}}}}
+\newcommand{\oracle}{\symcal{O}}
+
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%       CODES         %%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\DeclareMathOperator{\Rank}{Rank}
+\DeclareMathOperator{\SR}{SumRank}
+\DeclareMathOperator{\Ch}{Ch}
+\DeclareMathOperator{\Par}{Par}
+\DeclareMathOperator{\Lin}{Lin}
+\DeclareMathOperator{\SF}{\mathsf{SF}}
+
+\newcommand{\Aut}{\operatorname{Aut}}
+\newcommand{\GL}{\operatorname{GL}}
+\newcommand{\GLnq}{\GL_n(q)}
+\newcommand{\GLmq}{\GL_m(q)}
+\newcommand{\GLkq}{\GL_k(q)}
+\newcommand{\GLNq}{\GL_N(q)}
+\newcommand{\GLnmq}{\GL_{(m+n)}(q)}
+\newcommand{\AGLnq}{\operatorname{AGL}_n(q)}
+\newcommand{\AGLNq}{\operatorname{AGL}_N(q)}
+\newcommand{\AGLkq}{\operatorname{AGL}_k(q)}
+\newcommand{\AGLmq}{\operatorname{AGL}_k(q)}
+\newcommand{\PGL}{\operatorname{PGL}}
+\newcommand{\Isom}{\mathcal{I}}
+\newcommand{\Isomq}{\Isom_{m, n}(q)}
+
+\renewcommand{\L}{\mathbb{F}_{q^m}}
+\newcommand{\Mc}{\mathcal{M}}
+\newcommand{\supp}{\operatorname{Supp}}
+\newcommand{\Mat}{\operatorname{Mat}}
+\renewcommand{\Vec}{\operatorname{Vec}}
+
+\newcommand{\Gr}{\operatorname{Gr}}
+\newcommand{\MQ}{\ensuremath{\mathcal{MQ}}}
+\newcommand{\Dual}[1]{#1^{\perp}}
+\newcommand{\Gauss}[2]{\bigl[\!\begin{smallmatrix} #1 \\ #2 \end{smallmatrix}\!\bigr]_q}
+\newcommand*\clos[1]{\overline{#1}}
+\newcommand{\Df}{D_{(\mathbf{a}, \mathbf{b})}\mathcal{F}}
+\newcommand{\Sf}{S^{\textbf{0}}}
+
+\newcommand{\Aa}{\matrixstyle{A}}
+\newcommand{\Ab}{\matrixstyle{A}}
+\newcommand{\Bb}{\matrixstyle{B}}
+\newcommand{\Cb}{\matrixstyle{C}}
+\newcommand{\Db}{\matrixstyle{D}}
+\newcommand{\Fb}{\matrixstyle{F}}
+\newcommand{\Mb}{\matrixstyle{M}}
+\newcommand{\Pb}{\matrixstyle{P}}
+\newcommand{\Sb}{\matrixstyle{S}}
+\newcommand{\Tb}{\matrixstyle{T}}
+\newcommand{\Id}{\matrixstyle{I}}
+
+\newcommand{\xx}{\matrixstyle{x}}
+\newcommand{\yy}{\matrixstyle{y}}
+
+\newcommand{\D}{\mathcal{D}}
+
+\newcommand{\MCE}{\problemstylenospace{MCE}}
+\newcommand{\MCRE}{\problemstylenospace{MCRE}}
+\newcommand{\BMLE}{\problemstylenospace{BMLE}}
+\newcommand{\QMLE}{\problemstylenospace{QMLE}}
+\newcommand{\hQMLE}{\problemstylenospace{hQMLE}}
+
+\newcommand{\IP}{\problemstylenospace{IP}}
+\newcommand{\PE}{\problemstylenospace{PE}}
+\newcommand{\PLE}{\problemstylenospace{PLE}}
+\newcommand{\inhQMLE}{\problemstylenospace{inhQMLE}}
+\newcommand{\hBMLE}{\problemstylenospace{hBMLE}}
+\newcommand{\inhBMLE}{\problemstylenospace{inhBMLE}}
+\newcommand{\HCE}{\problemstylenospace{HCE}}
+\newcommand{\VRCE}{\problemstylenospace{VRCE}}
+\newcommand{\MSRCE}{\problemstylenospace{MSRCE}}
+\newcommand{\VSRCE}{\problemstylenospace{VSRCE}}
+\newcommand{\MPE}{\problemstylenospace{MPE}}
+\newcommand{\QFE}{\problemstylenospace{QFE}}
+\newcommand{\IMCE}{\problemstylenospace{IMCE}}
+\newcommand{\MIMCE}{\problemstylenospace{MIMCE}}
+
+
+\newcommand{\changed}[1]{#1}
+\renewcommand{\sout}[1]{}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%   TO FIX MEDS COMMANDS  %%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\newcommand{\G}{\mathbf{G}}
+
+\newcommand{\setT}[1]{\Tb_{#1}} % to be used only in math mode
+\newcommand{\setA}[1]{\Ab_{#1}} % to be used only in math mode
+\newcommand{\setB}[1]{\Bb_{#1}} % to be used only in math mode
+\newcommand{\setphi}[1]{\varphi_{#1}} % to be used only in math mode
+\newcommand{\setCodeStart}{\Cb} % to be used only in math mode
+\newcommand{\setCode}[1]{\Db_{#1}} % to be used only in math mode
+
+\newcommand{\randA}[1]{\Ab_{{\scriptscriptstyle{\$}} #1}} % to be used only in math mode
+\newcommand{\randB}[1]{\Bb_{{\scriptscriptstyle{\$}} #1}} % to be used only in math mode
+\newcommand{\randphi}[1]{\varphi_{{\scriptscriptstyle{\$}} #1}} % to be used only in math mode
+\newcommand{\randCode}[1]{\Db_{{\scriptscriptstyle{\$}} #1}} % to be used only in math mode
+
+\newcommand{\scname}{MEDS\xspace}
+\newcommand{\buildlist}{\textsc{BuildList}}
+\newcommand{\collisionfind}{\textsc{CollisionFind}}
+
+\newcommand{\Ts}{\mathsf}
+\newcommand{\pp}{\Ts{pp}}
+\newcommand{\rand}{\Ts{rand}}
+\newcommand{\pr}{\Ts{Pr}}
+\newcommand{\Adv}{\Ts{Adv}}
+\newcommand{\hid}{\Ts{\tiny Hide}}
+\newcommand{\bind}{\Ts{\tiny Bind}}
+\newcommand{\rr}{\Ts{r}}
+\newcommand{\cc}{\Ts{c}}
+\newcommand{\calR}{\mathcal{R}}
+\newcommand{\calP}{\Ts{P}}
+\newcommand{\calV}{\Ts{V}}
+\newcommand{\calS}{\Ts{S}}
+\newcommand{\calA}{\mathcal{A}}
+\newcommand{\Szero}{S^{\textbf{0}}}
+\newcommand{\und}{\underbracket[.5pt]}
+\newcommand\acts{\curvearrowright}
+
+\newcommand{\0}{\{0,1\}}
+\newcommand{\4}{\noindent}
+\newcommand{\6}{\mathbf}
+\newcommand{\9}{\mathbb}
+\newcommand{\inv}{^{-1}}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%    FOR SOK    %%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\newcommand{\prot}{\mathrm{\Pi}}
+\newcommand{\protstart}{\mathrm{\Pi}_\texttt{basic}}
+\newcommand{\logq}{\lceil \log q \rceil}
+\newcommand{\ltail}{\ell_{\mathtt{tail}}}
+\newcommand{\numparties}{m}
+\newcommand{\Mtime}{*}%\#\mathsf{gr. act}}
+\newcommand{\gra}{}%\#\mathsf{gr. act}}
+
+\NewDocumentCommand{\CrefAbbrevNames}{}
+  {%
+    \crefname{section}{Sec.}{Secs.}%
+  }
+\newcommand{\shortcref}[1]{
+  {{% 
+    \CrefAbbrevNames
+    \cref{#1}%
+  }}}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%5555555555
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%    PATIENT ZERO    %%%%%%%%%%%%%%%%%%%%%%%%%%5555555555
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%5555555555
+
+\newcommand{\mont}{Montgomery form}
+\newcommand{\lazy}{alternative Montgomery form}
+%\newcommand{\flipped}{\raisebox{\depth}{\scalebox{1}[-1]{alternative}} Montgomery form}
+%\newcommand{\flipped}{\reflectbox{alternative} Montgomery form}
+\newcommand{\flipped}{\raisebox{-0.25em}{\rotatebox[origin=c]{180}{alternative}} Montgomery form}
+
+\newcommand{\ski}{{\sk}^{(i)}}
+\newcommand{\skt}{{\sk}^{(0)}}
+\newcommand{\sktt}{{\sk}^{(1)}}
+\newcommand{\skttt}{{\sk}^{(2)}}
+
+\newcommand{\pki}{{\pk}^{(i)}}
+\newcommand{\pkt}{{\pk}^{(0)}}
+\newcommand{\pktt}{{\pk}^{(1)}}
+\newcommand{\pkttt}{{\pk}^{(2)}}
+
+\newcommand{\Ap}{A_{24}^+}
+\newcommand{\Am}{A_{24}^-}
+
+\newcommand{\PK}{E_\mathtt{PK}}
+\newcommand{\PKt}{\tilde{E}_\mathtt{PK}}
+
+\newcommand{\pa}{p_\fraka}
+\newcommand{\pak}{p_{\fraka_k}}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%% FOR EGNOISY   %%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\newcommand{\onenorm}{$1$-norm}
+\newcommand{\twistgroup}[1]{\tilde E_{#1}(\Fp)}
+\newcommand{\curveset}{\mathcal{E}}
+\newcommand{\montset}{\mathcal{M}}
+\newcommand{\sign}{\operatorname{sign}}
+\newcommand\pubcrawl{\ensuremath{\mathsf{pubcrawl}}\xspace}
+\newcommand\suchthat{\mid} 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%% FOR RADICAL   %%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\newlength{\three}
+\settowidth{\three}{3}
+
+\newcommand{\isep}{\mathrel{{.}\,{.}}\nobreak}
+\newcommand{\kps}{\texttt{KPS}}
+\newcommand{\codom}{\texttt{xISOG}\xspace}
+\newcommand{\xISOG}{\codom}
+\newcommand{\eval}{\texttt{xEVAL}\xspace}
+\newcommand{\xEVAL}{\eval}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%% FOR PAIRINGS  %%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\newcommand{\embed}{\hookrightarrow}
+\newcommand{\elkies}{{\ell_\chi}}
+\newcommand{\tate}[2]{e_{p+1}(#1, #2)}
+\newcommand{\csidhp}{\ensuremath{\mathsf{p512}}}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%% FOR SECSIDH   %%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\newcommand{\dCSIDH}{\ensuremath{\mathsf{dCSIDH}}\xspace}
+\newcommand{\CTIDH}{\ensuremath{\mathsf{CTIDH}}\xspace}
+\newcommand{\Elligator}{\ensuremath{\mathsf{Elligator}}\xspace}
+\newcommand{\verifast}{\ensuremath{\mathsf{VeriFast}}\xspace}
+
+\newcommand{\ptwo}{\text{p2048}}
+\newcommand{\ppfour}{\text{p4096}}
+\newcommand{\ppfive}{\text{p5120}}
+\newcommand{\psix}{\text{p6144}}
+\newcommand{\peight}{\text{p8192}}
+\newcommand{\pnine}{\text{p9216}}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%    FOR M4   %%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\newcommand{\ptwofoureight}{\ensuremath{p_\texttt{248}}\xspace}
+\newcommand{\pfourorig}{\ensuremath{p_\texttt{4}}\xspace}
+\newcommand{\pOG}{\ensuremath{p_\texttt{1973}}\xspace}
+
+\newcommand{\legendre}[1]{\left(\frac{#1}{p}\right)}
+\newcommand{\legendresq}[1]{\left(\frac{#1}{p^2}\right)}
+\newcommand{\Otil}{\widetilde{O}}
+
+\newcommand{\bitresp}{\ensuremath{b_{\mathsf{resp}}}\xspace}
+\newcommand{\scalarresp}{\ensuremath{s_{\mathsf{resp}}}\xspace}
+\newcommand{\bitchall}{\ensuremath{b_{\mathsf{chall}}}\xspace}
+\newcommand{\scalarchall}{\ensuremath{s_{\mathsf{chall}}}global\xspace}
+\newcommand{\scalarhash}{\ensuremath{s_{\mathsf{hash}}}\xspace}
+\newcommand{\SQIsignHD}{SQIsignHD\xspace}
+\newcommand{\ApresSQI}{Apr\`esSQI\xspace}
+
+\newcommand{\SHAKE}{\algstyle{SHAKE256}}
+\newcommand{\UMULL}{\algstyle{UMULL}}
+\newcommand{\UMLAL}{\algstyle{UMLAL}}
+\newcommand{\UMAAL}{\algstyle{UMAAL}}
+
+\newcommand{\RandIsogImages}{\algstyle{RandIsogImages}}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%    FOR ROTK   %%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\newcommand{\profile}[1]{\ensuremath{t_{\ker #1}}\xspace}
+\newcommand{\proftwo}{\profile{[2]}}
+\newcommand{\profphi}{\profile{\phi}}
+\newcommand{\tempprof}{t_{\mathcal{B},[2]}}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%% TODO: FIX SIUNITS  %%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% \newcommand{\qty}{TODO FIX}
+\newcommand{\milli}{TODO FIX}
+\newcommand{\second}{TODO FIX}
+\newcommand{\ms}{TODO FIX}
+\newcommand{\mega}{TODO FIX}
+\newcommand{\hertz}{TODO FIX}
+\newcommand{\kilo}{TODO FIX}
+\newcommand{\byte}{TODO FIX}
+
+
+

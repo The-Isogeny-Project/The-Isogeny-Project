@@ -1,12 +1,99 @@
-\documentclass{article}
-\usepackage[a4paper,top=3cm,bottom=2cm,left=3cm,right=2cm]{geometry}
+\documentclass[
+	twoside=semi,
+	% toc=bibliography,  %this will have the wrong formatting
+	% version=3.38,
+	%paper=240mm:170mm,
+	areasetadvanced,
+	BCOR=10mm,
+	USenglish,
+	numbers=noendot,
+	captions=tableheading,
+	fontsize=10pt,
+	% DIV=11 % MUST CALL \KOMAoption{DIV}{calc} after setting fonts
+]{scrbook}
+
+%internet says that this is actually thesis size
+%printers often refer to 170x240 paper by b5 apparently
+
+\usepackage[utf8]{inputenc}
+\DeclareUnicodeCharacter{0301}{\'{e}}
+
+\input{packages}
+\input{macros}
+
+\usepackage[b5paper,layout=b5paper]{geometry}
+\geometry{
+    paper=b5paper,
+    inner=20mm,         % Inner margin
+    outer=24mm,         % Outer margin
+    bindingoffset=10mm, % Binding offset
+    top=20mm,           % Top margin
+    bottom=20mm,        % Bottom margin
+	headheight=4ex,
+    includehead,
+    includefoot,
+    %showframe,         % show how the type block is set on the page
+}
+
+\usepackage[backref, backend=biber, maxnames=99, natbib=true, sortcites]{biblatex} % use biblatex with natbib API
+\renewcommand*{\multicitedelim}{\addcomma\space}
+\bibliography{bib}
 
 \title{The Start of a Great Project}
 \date{}
 
+\glsaddall
+
 \begin{document}
 \maketitle
 
-Now, on to work on isogenies.
+\frontmatter{}
+\input{frontmatter/toc}
+
+\partslayout
+\setcounter{part}{-1}
+\subfile{flutter/introduction.tex}
+\addtocontents{toc}{\protect\medskip}
+
+\mainmatter{} %determines change in ToC
+
+\def\parttext{Part 0}
+\part{Mathematical Foundations}\label{part:foundations}
+\subfile{parts/part0/part0.tex}
+
+
+
+\addtocontents{toc}{\protect\bigskip}
+\part{Basics of Isogeny-based Cryptography}\label{part:isogenies}
+\subfile{parts/part1/part1.tex}
+
+
+\addtocontents{toc}{\protect\bigskip}
+\part{Advanced Topics in Isogeny-based Cryptography}\label{part:advanced}
+\subfile{parts/part2/part2.tex}
+
+
+\addtocontents{toc}{\protect\bigskip}
+\part{Cryptographic Constructions}\label{part:protocols}
+\subfile{parts/part3/part3.tex}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%											 %%%%%%%%%%%%%%
+%%%%%%%%%%%%%%					BACKMATTER    			 %%%%%%%%%%%%%%
+%%%%%%%%%%%%%%											 %%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\addtocontents{toc}{\protect\setcounter{tocdepth}{0}}
+\bookmarksetup{startatroot}
+
+\backmatter{}
+
+\addtocontents{toc}{\protect\bigskip}
+
+% \input{backmatter/glossaries}
+
+\addcontentsline{toc}{chapter}{\allcaps{bibliography}}
+\sloppy \printbibliography[] \fussy
 
 \end{document}

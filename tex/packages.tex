@@ -1,0 +1,206 @@
+
+\usepackage[dvipsnames,pdftex]{xcolor}
+\usepackage{amsmath,amssymb,amsfonts,amsthm}
+\usepackage[colorlinks=true,linktocpage]{hyperref}
+\usepackage{multirow}
+\usepackage{xparse}
+\usepackage{siunitx}
+\usepackage{enumitem}
+\usepackage{relsize}
+\usepackage{bm}
+\usepackage{tabularx}
+\usepackage{arydshln}
+\usepackage{stmaryrd}
+\usepackage[mathscr]{eucal}
+\usepackage{needspace}
+\usepackage{pdfpages}
+\usepackage{setspace}
+\usepackage{orcidlink}
+\usepackage{xifthen}
+\usepackage{epigraph}
+\usepackage[style=long,nolist]{glossaries}
+\usepackage[figuresright]{rotating}
+
+% \makeglossaries
+
+\newcounter{ALC@unique}
+%\usepackage{algorithmicx}
+\usepackage[ruled]{algorithm}
+%\usepackage[noend]{algorithmic}
+\usepackage[noend]{algpseudocode}
+
+
+%% to ensure algpseudocode also works as we expect, we renew alot of commands
+\newcommand{\REQUIRE}{\Require}
+\newcommand{\ENSURE}{\Ensure}
+\newcommand{\STATE}{\State}
+\newcommand{\WHILE}{\While}
+\newcommand{\ENDWHILE}{\EndWhile}
+\newcommand{\FOR}{\For}
+\newcommand{\ENDFOR}{\EndFor}
+\newcommand{\IF}{\If}
+\newcommand{\ENDIF}{\EndIf}
+\newcommand{\RETURN}{\Return}
+\newcommand{\COMMENT}{\Comment}
+
+\usepackage[normalem]{ulem}
+%\usepackage{fancyhdr} %clashes with classicalthesis
+\usepackage{tikz,tikz-cd}
+\usetikzlibrary{positioning}
+\usetikzlibrary{calc, shapes, backgrounds}
+\usetikzlibrary{arrows, shadows, trees}
+\usepackage{tikz-timing}
+\usepackage{pifont}
+
+\usepackage{url}
+\usepackage{pgfplots}
+%\pgfplotsset{compat=1.18}
+\pgfplotsset{compat=newest}
+\usepackage[stable]{footmisc}
+\usepackage{adjustbox}
+\usepackage{stackengine}
+
+\usepackage{mathtools}
+\providecommand\given{} % so it exists
+\newcommand\SetSymbol[1][]{
+   \nonscript\,#1\vert \allowbreak \nonscript\,\mathopen{}}
+\DeclarePairedDelimiterX\Set[1]{\lbrace}{\rbrace}%
+ { \renewcommand\given{\SetSymbol[\delimsize]} #1 }
+
+ 
+\providecolor{DarkBlue}{rgb}{0,0,.545}
+\providecolor{DarkGreen}{rgb}{0,.392,0}
+\hypersetup{citecolor=DarkGreen}
+\hypersetup{linkcolor=DarkBlue}
+\hypersetup{urlcolor=DarkBlue}
+
+\usepackage[nameinlink]{cleveref}
+\usepackage{etoolbox}
+\usepackage{xfp}  % computations in tables
+\usepackage{multirow}
+\usepackage[all]{xy}
+\usepackage{footmisc}
+\usepackage{graphicx}
+%\usepackage{cite}
+\usepackage{xspace}
+\usepackage{multicol}
+
+% for nice tables
+\usepackage{array}
+\usepackage{booktabs}
+\usepackage{makecell}
+\usepackage[labelfont=bf]{caption}
+\captionsetup[table]{skip=10pt}
+\usepackage{subcaption}
+
+\usepackage{subfiles}
+
+\renewcommand{\algorithmicrequire}{\textbf{Input:}}
+\renewcommand{\algorithmicensure}{\textbf{Output:}}
+\newcommand{\algorithmautorefname}{Algorithm}
+\renewcommand{\algorithmiccomment}[1]{\hfill\ $\triangleright$ #1}
+%\renewcommand{\algorithmiccomment}[1]{\hfill//\ $\triangleright$ #1}
+
+% TikZ arrowhead/tail styles.
+\tikzset{tail reversed/.code={\pgfsetarrowsstart{tikzcd to}}}
+\tikzset{2tail/.code={\pgfsetarrowsstart{Implies[reversed]}}}
+\tikzset{2tail reversed/.code={\pgfsetarrowsstart{Implies}}}
+% TikZ arrow styles.
+\tikzset{no body/.style={/tikz/dash pattern=on 0 off 1mm}}
+
+
+\usepackage[dottedtoc,parts,manychapters,linedheaders]{classicthesis}
+
+% \usepackage{geometry}
+
+% \geometry{
+%  a4paper,
+%  total={170mm,257mm},
+%  left=20mm,
+%  top=20mm,
+%  }
+
+% %formatting of section titles etc
+% \counterwithout{section}{chapter}
+% \counterwithout{subsection}{chapter}
+
+\DeclareRobustCommand{\allcaps}[1]{\textls[50]{\scshape #1}}
+
+
+\makeatletter
+\@addtoreset{section}{chapter}
+\@addtoreset{definition}{chapter}
+\@addtoreset{example}{chapter}
+\@addtoreset{problem}{chapter}
+\@addtoreset{remark}{chapter}
+\@addtoreset{assumption}{chapter}
+\makeatother
+
+
+% arabic for parts, roman for chapters
+%\renewcommand{\thepart}{\Roman{part}}
+\renewcommand{\thepart}{\arabic{part}}
+\renewcommand{\thechapter}{\Roman{chapter}}
+\renewcommand{\thesection}{\arabic{section}}
+\renewcommand{\thesubsection}{\arabic{section}.\arabic{subsection}}
+
+
+%In ToC
+\renewcommand{\cftchappresnum}{}%
+\renewcommand{\cftchapaftersnumb}{\hspace{.8em}\spacedlowsmallcaps}%
+\renewcommand{\cftchapfont}{\spacedlowsmallcaps}%
+\renewcommand{\cftsecpresnum}{\hspace{.8em}\scshape\MakeTextLowercase}%
+
+%in text
+\titleformat{\chapter}[display]%
+{\relax}{\raggedleft{\color{CTsemi}\chapterNumber\thechapter} \\ }{0pt}%
+{\titlerule\vspace*{.9\baselineskip}\raggedright\spacedallcaps}[\normalsize\vspace*{.8\baselineskip}\titlerule]%
+
+
+\titleformat{\section}
+   {\relax}{\Large\textsc{\S \MakeTextLowercase{\thesection}}}{1em}{\allcaps}
+
+\titleformat{\subsection}
+   {\relax}{\textsc{\MakeTextLowercase{\thesubsection}}}{1em}{\spacedlowsmallcaps}
+
+%formatting of header marks
+%normally, we want to have it say just Chapter X or so
+%if the chapter is unnamed, we want it to say which Part
+\def\parttext{Chapter }
+\renewcommand{\chaptermark}[1]{\markleft{\spacedlowsmallcaps{
+    \ifnum\value{part}>-1
+        \parttext \thechapter. \ 
+    \else
+        {}
+    \fi
+    #1
+    }}}
+    
+\renewcommand{\sectionmark}[1]{\markright{\spacedlowsmallcaps{
+   \ifnum\value{part}>-1
+    \ifnum\value{section}>0
+        \thechapter.\thesection \
+    \else
+        \parttext \thechapter.{}
+    \fi  
+   \fi    
+    #1}}}
+
+\makeatletter
+\newcounter{tempsaver}
+\newcounter{tempsaversec}
+
+\newcommand\partslayout{
+    \setcounter{tempsaver}{\value{chapter}}%
+    \setcounter{tempsaversec}{\value{section}}%
+    \setcounter{chapter}{\value{part}}%
+    \setcounter{section}{0}%
+    \def\parttext{Part }
+}
+
+\newcommand\chapterlayout{
+    \setcounter{chapter}{\value{tempsaver}}%
+    \setcounter{section}{\value{tempsaversec}}%
+    \def\parttext{Chapter }
+}
+\makeatother

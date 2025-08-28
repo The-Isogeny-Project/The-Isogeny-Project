@@ -25,9 +25,24 @@ fi
 # Move the new PDF to the /pdf folder as full.pdf
 mv "$COMPILED_PDF" "$OUTPUT_PDF"
 
+# Compile individual parts and move them to the /pdf folder
+PARTS_DIR="parts"
+for PART_TEX in "$PARTS_DIR"/part*/part*.tex; do
+    PART_PDF="${PDF_DIR}/$(basename "${PART_TEX%.tex}").pdf"
+    pdflatex -output-directory=$(dirname "$PART_TEX") "$PART_TEX"
+    if [ -f "$(dirname "$PART_TEX")/$(basename "${PART_TEX%.tex}").pdf" ]; then
+        mv "$(dirname "$PART_TEX")/$(basename "${PART_TEX%.tex}").pdf" "$PART_PDF"
+    else
+        echo "Error: Failed to generate PDF for $PART_TEX"
+    fi
+done
+
 # Add all new updates and push to git
 git add .
 git commit -m "Updated PDF and moved old version"
+git pull
 git push
 
 echo "Process completed successfully."
+
+
